@@ -1,7 +1,6 @@
 package com.anask.model;
 
-import org.springframework.data.annotation.Id;
-
+import javax.persistence.Id;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,14 +11,13 @@ import javax.persistence.Table;
 public class Time {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nome;
     private String descricao;
     private String responsavel;
 
-    public Time(int id, String nome, String descricao, String responsavel) {
-        this.id = id;
+    public Time( String nome, String descricao, String responsavel) {
         this.nome = nome;
         this.descricao = descricao;
         this.responsavel = responsavel;
