@@ -15,10 +15,10 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @GetMapping(value = "/get-user/{id}")
-    public ResponseEntity<Object> getUser(@PathVariable("id") int id) {
+    @GetMapping(value = "/login/{email}/{senha}")
+    public ResponseEntity<Object> getUser(@PathVariable("email") String email, @PathVariable("senha") String senha) {
         try {
-            return ResponseEntity.ok().body(usuarioService.getUser(id));
+            return ResponseEntity.ok().body(usuarioService.getUser(email, senha));
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
