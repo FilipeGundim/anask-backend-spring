@@ -13,12 +13,20 @@ public class ProjetoService {
     @Autowired
     private ProjetoRepository projetoRepository;
 
-    public List<Projeto> getProject(){
-        return projetoRepository.findAll();
+    public List<Projeto> getProject(String filter) {
+        return projetoRepository.getAllByFilter(filter);
     }
 
-    public void newProjeto(Projeto projeto){
+    public void newProjeto(Projeto projeto) {
         projetoRepository.save(projeto);
+    }
+
+    public void joinProject(int user, int project) {
+        projetoRepository.ingressarProjeto(user, project);
+    }
+
+    public List<Projeto> getByUserId(int user) {
+        return projetoRepository.getAllByUserId(user);
     }
 
 }

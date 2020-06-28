@@ -1,12 +1,17 @@
 package com.anask.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name= "tbl_usuario")
+@Table(name = "tbl_usuario")
 public class Usuario {
 
     @Id
@@ -19,10 +24,20 @@ public class Usuario {
     private String email;
     private String senha;
 
-    @OneToMany(mappedBy="usuario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<Atividade> atividades = new ArrayList<>();
 
-    public Usuario(int id, String nome, Date datanasc, String sexo, String email, String senha, List<Atividade> atividades) {
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name="tbl_projeto_usuario",
+        uniqueConstraints = @UniqueConstraint( columnNames = {"id_usuario", "id_projeto"}),
+        joinColumns = @JoinColumn(name = "id_usuario"),
+        inverseJoinColumns = @JoinColumn(name = "id_projeto")
+    )
+    @JsonProperty("usuario")
+    private List<Projeto> projetos = new ArrayList<>();;
+
+    public Usuario(int id, String nome, Date datanasc, String sexo, String email, String senha, List<Atividade> atividades, List<Projeto> projetos) {
         this.id = id;
         this.nome = nome;
         this.datanasc = datanasc;
@@ -30,6 +45,18 @@ public class Usuario {
         this.email = email;
         this.senha = senha;
         this.atividades = atividades;
+        this.projetos = projetos;
+    }
+
+    public Usuario() {
+    }
+
+    public List<Projeto> getProjetos() {
+        return projetos;
+    }
+
+    public void setProjetos(List<Projeto> projetos) {
+        this.projetos = projetos;
     }
 
     public List<Atividade> getAtividades() {
@@ -40,15 +67,13 @@ public class Usuario {
         this.atividades = atividades;
     }
 
-    public void addAtividade(Atividade atividade){
+    public void addAtividade(Atividade atividade) {
         this.atividades.add(atividade);
     }
 
-    public void removeAtividade(Atividade atividade){
+    public void removeAtividade(Atividade atividade) {
         this.atividades.remove(atividade);
     }
-
-    public Usuario(){}
 
     public int getId() {
         return id;

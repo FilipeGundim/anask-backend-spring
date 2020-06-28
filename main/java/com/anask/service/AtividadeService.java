@@ -17,6 +17,10 @@ public class AtividadeService {
         return atividadeRepository.getByUserId(id);
     }
 
+    public void deleteAtividade(int id) {
+        atividadeRepository.deleteAtividade(id);
+    }
+
     public void newAtividade(Atividade atividade) {
         atividadeRepository.save(atividade);
     }

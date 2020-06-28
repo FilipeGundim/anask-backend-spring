@@ -20,6 +20,12 @@ public class AtividadeController {
         return ResponseEntity.ok().body(atividadeService.getAtividades(id));
     }
 
+    @PostMapping(value = "/delete-atividade/{id}")
+    public ResponseEntity<String> deleteAtividade(@PathVariable("id") int id){
+        atividadeService.deleteAtividade(id);
+        return  ResponseEntity.ok().body("Deletado com sucesso");
+    }
+
     @PostMapping(value = "/new-atividade", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> newAtividade(@RequestBody Atividade atividade){
         atividadeService.newAtividade(atividade);

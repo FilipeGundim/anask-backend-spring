@@ -5,10 +5,7 @@ import com.anask.service.ProjetoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,10 +15,19 @@ public class ProjetoController {
     @Autowired
     private ProjetoService projetoService;
 
-    @GetMapping(value = "/get-projetos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> getProjetos() {
+    @GetMapping(value = "/get-projetos/{filter}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> getProjetos(@PathVariable("filter") String filter) {
         try {
-            return ResponseEntity.ok().body(projetoService.getProject());
+            return ResponseEntity.ok().body(projetoService.getProject(filter));
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping(value = "/user-projetos/{user}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> getUserProjetos(@PathVariable("user") int user) {
+        try {
+            return ResponseEntity.ok().body(projetoService.getByUserId(user));
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
@@ -32,6 +38,17 @@ public class ProjetoController {
 
         try {
             projetoService.newProjeto(projeto);
+            return ResponseEntity.ok().body("Inserido com sucesso");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(":(");
+        }
+    }
+
+    @PostMapping(value = "/ingressar-projeto/{user}/{project}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> ingressarProjeto(@PathVariable("user") int user, @PathVariable("project") int project) {
+
+        try {
+            projetoService.joinProject(user, project);
             return ResponseEntity.ok().body("Inserido com sucesso");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(":(");
