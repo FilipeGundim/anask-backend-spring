@@ -16,9 +16,9 @@ public class ProjetoController {
     private ProjetoService projetoService;
 
     @GetMapping(value = "/get-projetos/{filter}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> getProjetos(@PathVariable("filter") String filter) {
+    public ResponseEntity<List<Projeto>> getProjetos(@PathVariable("filter") String filter) {
         try {
-            return ResponseEntity.ok().body(projetoService.getProject(filter));
+            return ResponseEntity.ok().body(projetoService.getProject(filter + " "));
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }

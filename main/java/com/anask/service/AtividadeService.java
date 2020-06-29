@@ -17,6 +17,10 @@ public class AtividadeService {
         return atividadeRepository.getByUserId(id);
     }
 
+    public List<Atividade> getHistorico(int id) {
+        return atividadeRepository.getHistorico(id);
+    }
+
     public void deleteAtividade(int id) {
         atividadeRepository.deleteAtividade(id);
     }

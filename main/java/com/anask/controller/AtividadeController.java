@@ -20,6 +20,11 @@ public class AtividadeController {
         return ResponseEntity.ok().body(atividadeService.getAtividades(id));
     }
 
+    @GetMapping(value = "/get-historico-atividades/{id}")
+    public ResponseEntity<List<Atividade>> getHistorico(@PathVariable("id") int id) {
+        return ResponseEntity.ok().body(atividadeService.getHistorico(id));
+    }
+
     @PostMapping(value = "/delete-atividade/{id}")
     public ResponseEntity<String> deleteAtividade(@PathVariable("id") int id){
         atividadeService.deleteAtividade(id);
